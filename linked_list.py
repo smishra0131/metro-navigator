@@ -8,14 +8,12 @@ class Node:
 
 class LinkedList:
     """Represents a singly linked list."""
-
     def __init__(self):
         self.head = None
         self.tail = None
         
 
     def append(self, value):
-        """Add value to the end. Use tail so the method does not traverse existing nodes."""
         new_node = Node(value)
         if self.head == None:
             self.head = new_node
@@ -25,7 +23,6 @@ class LinkedList:
             self.tail = new_node
 
     def prepend(self, value):
-        """Add value to the front."""
         new_node = Node(value)
         if self.head == None:
             self.head = new_node
@@ -35,7 +32,6 @@ class LinkedList:
         self.head = new_node
 
     def insert_at(self, index, value):
-        """Insert so the new value ends up at index. Valid indexes are 0 through len, inclusive; otherwise raise IndexError."""
         if index < 0 or index > len(self):
             raise IndexError("Index out of range")
         if index == 0:
@@ -52,7 +48,6 @@ class LinkedList:
         current.next = new_node
 
     def get(self, index):
-        """Return the value at index. Valid indexes are 0 through len - 1. Negative indexes are invalid and raise IndexError."""
         if index < 0 or index >= len(self):
             raise IndexError("Index out of range")
         current = self.head
@@ -61,7 +56,6 @@ class LinkedList:
         return current.value
 
     def find(self, value):
-        """Return the index of the first node whose value == value, or -1 if it is not found."""
         current = self.head
         index = 0
         while current != None:
@@ -72,7 +66,6 @@ class LinkedList:
         return -1
 
     def remove(self, value):
-        """Remove the first matching value. Return True if removed and False if not found."""
         if self.head == None:
             return False
         if self.head.value == value:
@@ -91,7 +84,6 @@ class LinkedList:
         return False
 
     def remove_at(self, index):
-        """Remove the node at index and return its value. Raise IndexError for an invalid index. Removing index 0 must not traverse the list."""
         if index < 0 or index >= len(self):
             raise IndexError("Index out of range")
         if index == 0:
@@ -110,7 +102,6 @@ class LinkedList:
         return value
 
     def reverse(self):
-        """Reverse in place by changing links. Do not create replacement nodes."""
         prev = None
         current = self.head
         self.tail = self.head
@@ -122,16 +113,13 @@ class LinkedList:
         self.head = prev
 
     def clear(self):
-        """Clear all items"""
         self.head = None
         self.tail = None
 
     def is_empty(self):
-        """Report whether the list is empty"""
         return self.head == None
 
     def to_list(self):
-        """Return a new Python list of values from head to tail."""
         result = []
         current = self.head
         while current != None:
@@ -140,7 +128,6 @@ class LinkedList:
         return result
 
     def __len__(self):
-        """Support len(ll)"""
         count = 0
         current = self.head
         while current != None:
@@ -149,13 +136,11 @@ class LinkedList:
         return count
 
     def __iter__(self):
-        """Support iteration with for x in ll, and list(ll)"""
         pass
 
     
     
     def __str__(self):
-        """Return '1 -> 2 -> 3 -> None'. An empty list returns 'None'."""
         if self.head == None:
             return "None"
         result = []
