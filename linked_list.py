@@ -136,7 +136,14 @@ class LinkedList:
         return count
 
     def __iter__(self):
-        pass
+        result = []
+        current = self.head
+
+        while current is not None:
+            result.append(current.value)
+            current = current.next
+
+        return iter(result)
 
     
     
