@@ -14,7 +14,7 @@ class HashTable:
         self.size = 0
     
     def put(self, key, value):
-        if not isinstance(key, str):
+        if type(key) is not str:
             raise TypeError("Keys must be strings")
 
         index = self._hash(key)
@@ -133,7 +133,7 @@ class HashTable:
         return self.size / self.capacity
 
     def _hash(self, key):
-        if not isinstance(key, str):
+        if type(key) is not str:
             raise TypeError("Keys must be strings")
 
         hash_value = 0
