@@ -4,40 +4,43 @@ class Node:
         self.value = value
         self.next = None
 
-
-
 class LinkedList:
     """Represents a singly linked list."""
     def __init__(self):
         self.head = None
         self.tail = None
+        self.size = 0
         
-
     def append(self, value):
         new_node = Node(value)
-        if self.head == None:
+        if self.head is None:
             self.head = new_node
             self.tail = new_node
         else:
             self.tail.next = new_node
             self.tail = new_node
 
+        self.size += 1
+
+
     def prepend(self, value):
         new_node = Node(value)
-        if self.head == None:
+        if self.head is None:
             self.head = new_node
             self.tail = new_node
-            return
-        new_node.next = self.head
-        self.head = new_node
+        else:
+            new_node.next = self.head
+            self.head = new_node
+
+        self.size += 1
 
     def insert_at(self, index, value):
-        if index < 0 or index > len(self):
+        if index < 0 or index > self.size:
             raise IndexError("Index out of range")
         if index == 0:
             self.prepend(value)
             return
-        if index == len(self):
+        if index == self.size:
             self.append(value)
             return
         current = self.head
@@ -46,9 +49,10 @@ class LinkedList:
         new_node = Node(value)
         new_node.next = current.next
         current.next = new_node
+        self.size += 1
 
     def get(self, index):
-        if index < 0 or index >= len(self):
+        if index < 0 or index >= self.size:
             raise IndexError("Index out of range")
         current = self.head
         for i in range(index):
@@ -72,6 +76,8 @@ class LinkedList:
             self.head = self.head.next
             if self.head == None:
                 self.tail = None
+
+            self.size -= 1
             return True
         current = self.head
         while current.next != None:
@@ -79,26 +85,37 @@ class LinkedList:
                 current.next = current.next.next
                 if current.next == None:
                     self.tail = current
+                
+                self.size -= 1
                 return True
             current = current.next
         return False
 
     def remove_at(self, index):
-        if index < 0 or index >= len(self):
+        if index < 0 or index >= self.size:
             raise IndexError("Index out of range")
+        
         if index == 0:
             value = self.head.value
             self.head = self.head.next
             if self.head == None:
                 self.tail = None
+            
+            self.size -= 1
             return value
+        
         current = self.head
+        
         for i in range(index - 1):
             current = current.next
+        
         value = current.next.value
         current.next = current.next.next
+        
         if current.next == None:
             self.tail = current
+
+        self.size -= 1
         return value
 
     def reverse(self):
@@ -115,6 +132,7 @@ class LinkedList:
     def clear(self):
         self.head = None
         self.tail = None
+        self.size = 0
 
     def is_empty(self):
         return self.head == None
@@ -128,25 +146,14 @@ class LinkedList:
         return result
 
     def __len__(self):
-        count = 0
-        current = self.head
-        while current != None:
-            count += 1
-            current = current.next
-        return count
+       return self.size
 
     def __iter__(self):
-        result = []
         current = self.head
-
         while current is not None:
-            result.append(current.value)
+            yield current.value
             current = current.next
 
-        return iter(result)
-
-    
-    
     def __str__(self):
         if self.head == None:
             return "None"
