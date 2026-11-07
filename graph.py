@@ -1,12 +1,9 @@
-
 from hash_table import HashTable
 from linked_list import LinkedList
-
 
 class Edge:
     def __init__(self, to):
         self.to = to
-
 
 class Graph:
     def __init__(self, directed=False):
@@ -40,7 +37,6 @@ class Graph:
             return False
 
         self.adjacency.get(u).append(Edge(v))
-
         if not self.directed:
             self.adjacency.get(v).append(Edge(u))
 
@@ -55,7 +51,6 @@ class Graph:
             return False
 
         self._remove_connection(u, v)
-
         if not self.directed:
             self._remove_connection(v, u)
 
@@ -64,15 +59,12 @@ class Graph:
 
     def _remove_connection(self, u, v):
         linked_list = self.adjacency.get(u)
-
         current = linked_list.head
-
         while current is not None:
             if current.value.to == v:
                 return linked_list.remove(current.value)
 
             current = current.next
-
         return False
 
     def remove_vertex(self, name):
@@ -93,14 +85,12 @@ class Graph:
 
         else:
             outgoing = self.neighbors(name)
-
             for neighbor in outgoing:
                 self._remove_connection(neighbor, name)
                 self._edge_count -= 1
 
         self.adjacency.remove(name)
         self._vertex_count -= 1
-
         return True
 
     def has_vertex(self, name):
@@ -109,15 +99,13 @@ class Graph:
     def has_edge(self, u, v):
         if not self.has_vertex(u) or not self.has_vertex(v):
             return False
-
+        
         current = self.adjacency.get(u).head
-
         while current is not None:
             if current.value.to == v:
                 return True
 
             current = current.next
-
         return False
 
     def neighbors(self, name):
@@ -126,7 +114,6 @@ class Graph:
 
         result = []
         current = self.adjacency.get(name).head
-
         while current is not None:
             result.append(current.value.to)
             current = current.next
@@ -136,7 +123,6 @@ class Graph:
     def degree(self, name):
         if not self.has_vertex(name):
             raise KeyError(name)
-
         return len(self.adjacency.get(name))
 
     def vertices(self):
@@ -144,7 +130,6 @@ class Graph:
 
     def edges(self):
         edge_list = []
-
         for u in self.vertices():
             for v in self.neighbors(u):
                 if self.directed or u < v:
@@ -160,7 +145,6 @@ class Graph:
 
     def __str__(self):
         result = []
-
         for u in self.vertices():
             neighbors = self.neighbors(u)
             result.append(f"{u}: {neighbors}")

@@ -9,7 +9,7 @@ class BST:
     def __init__(self):
         self.root = None
         self.size = 0
-        self.key_type = 0
+        self.key_type = None
 
     def insert(self, key, value=None):
         if self.key_type is None:
@@ -26,7 +26,6 @@ class BST:
             return
 
         current = self.root
-
         while True:
             if key == current.key:
                 current.value = value
@@ -48,7 +47,6 @@ class BST:
     
     def contains(self, key):
         current = self.root
-
         while current is not None:
             if key == current.key:
                 return True
@@ -61,7 +59,6 @@ class BST:
 
     def get(self, key):
         current = self.root
-
         while current != None:
             if key == current.key:
                 return current.value
@@ -97,11 +94,10 @@ class BST:
 
                 node.key = successor.key
                 node.value = successor.value
-
                 node.right, deleted = remove(
                     node.right, successor.key
                 )
-
+                
                 return node, True
 
             return node, deleted
@@ -115,7 +111,6 @@ class BST:
 
     def inorder(self):
         result = []
-
         def traverse(node):
             if node is not None:
                 traverse(node.left)
@@ -127,7 +122,6 @@ class BST:
 
     def preorder(self):
         result = []
-
         def traverse(node):
             if node is not None:
                 result.append(node.key)
@@ -139,7 +133,6 @@ class BST:
 
     def postorder(self):
         result = []
-
         def traverse(node):
             if node is not None:
                 traverse(node.left)
@@ -155,7 +148,6 @@ class BST:
 
         result = []
         queue = [self.root]
-
         while queue:
             node = queue.pop(0)
             result.append(node.key)
@@ -182,7 +174,6 @@ class BST:
             raise ValueError("Tree is empty")
 
         current = self.root
-
         while current.left is not None:
             current = current.left
 
@@ -193,7 +184,6 @@ class BST:
             raise ValueError("Tree is empty")
 
         current = self.root
-
         while current.right is not None:
             current = current.right
 
@@ -213,7 +203,6 @@ class BST:
 
     def range_query(self, low, high):
         result = []
-
         if low > high:
             return result
 

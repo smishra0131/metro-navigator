@@ -5,7 +5,6 @@ class Entry:
         self.value = value
         self.next = None
 
-
 class HashTable:
     """Stores key-value pairs and supports station-to-zone lookups"""
     def __init__(self):
@@ -30,28 +29,22 @@ class HashTable:
         new_entry.next = self.table[index]
         self.table[index] = new_entry
         self.size += 1
-
         if self.load_factor() > 0.75:
             old_table = self.table
             self.capacity *= 2
             self.table = [None] * self.capacity
-
             for head in old_table:
                 current = head
-
                 while current != None:
                     index = self._hash(current.key)
-
                     new_entry = Entry(current.key, current.value)
                     new_entry.next = self.table[index]
                     self.table[index] = new_entry
-
                     current = current.next
     
     def get(self, key, default=None):
         index = self._hash(key)
         current = self.table[index]
-
         while current != None:
             if current.key == key:
                 return current.value
@@ -63,7 +56,6 @@ class HashTable:
         index = self._hash(key)
         current = self.table[index]
         previous = None
-
         while current != None:
             if current.key == key:
                 if previous is None:
@@ -82,7 +74,6 @@ class HashTable:
     def contains(self, key):
         index = self._hash(key)
         current = self.table[index]
-
         while current != None:
             if current.key == key:
                 return True
@@ -95,7 +86,6 @@ class HashTable:
     
     def keys(self):
         result = []
-
         for head in self.table:
             current = head
 
@@ -107,10 +97,8 @@ class HashTable:
 
     def values(self):
         result = []
-
         for head in self.table:
             current = head
-
             while current != None:
                 result.append(current.value)
                 current = current.next
@@ -119,10 +107,8 @@ class HashTable:
 
     def items(self):
         result = []
-
         for head in self.table:
             current = head
-
             while current != None:
                 result.append((current.key, current.value))
                 current = current.next
@@ -137,7 +123,6 @@ class HashTable:
             raise TypeError("Keys must be strings")
 
         hash_value = 0
-
         for i, char in enumerate(key):
             hash_value = (hash_value * 31 + ord(char) * (i + 1)) % self.capacity
 
@@ -146,7 +131,6 @@ class HashTable:
     def __getitem__(self, key):
         index = self._hash(key)
         current = self.table[index]
-
         while current != None:
             if current.key == key:
                 return current.value

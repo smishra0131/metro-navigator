@@ -48,7 +48,6 @@ def board_passengers(names, k):
         raise ValueError("k must be at least 1")
 
     queue = Queue()
-
     for name in names:
         queue.enqueue(name)
 
@@ -61,6 +60,5 @@ def board_passengers(names, k):
         elimination_order.append(queue.dequeue())
 
     winner = queue.dequeue()
-
     return (elimination_order, winner)
 
