@@ -2,6 +2,7 @@ import random
 import time
 import unittest
 from graph import Graph
+
 class TestGraph(unittest.TestCase):
     def create_reference_graph(self, directed=False):
         graph = Graph(directed)

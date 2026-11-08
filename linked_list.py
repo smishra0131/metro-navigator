@@ -22,7 +22,6 @@ class LinkedList:
 
         self.size += 1
 
-
     def prepend(self, value):
         new_node = Node(value)
         if self.head is None:
