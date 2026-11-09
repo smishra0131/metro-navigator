@@ -1,11 +1,11 @@
 class Node:
-    """Represents a single node in a linked list."""
+    """Represents a single node in a linked list"""
     def __init__(self, value):
         self.value = value
         self.next = None
 
 class LinkedList:
-    """Represents a singly linked list."""
+    """Represents a singly linked list"""
     def __init__(self):
         self.head = None
         self.tail = None

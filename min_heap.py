@@ -1,4 +1,5 @@
 class MinHeap:
+    """Priority structure: the pair with the smallest numeric priority is removed first; represents maintenance tasks"""
     def __init__(self):
         self._data = []
 
@@ -7,12 +8,9 @@ class MinHeap:
             raise TypeError("Priority must be an integer or float")
 
         self._data.append((priority, item))
-
         i = len(self._data) - 1
-
         while i > 0:
             parent = (i - 1) // 2
-
             if self._data[i][0] < self._data[parent][0]:
                 self._data[i], self._data[parent] = (self._data[parent], self._data[i])
                 i = parent
@@ -27,14 +25,9 @@ class MinHeap:
             return self._data.pop()
 
         smallest = self._data[0]
-
-        # Move the last element to the root
         self._data[0] = self._data.pop()
-
-        # Sift down
         i = 0
         n = len(self._data)
-
         while True:
             left = 2 * i + 1
             right = 2 * i + 2
@@ -69,18 +62,14 @@ class MinHeap:
     @staticmethod
     def build_heap(pairs):
         heap = MinHeap()
-
         heap._data = list(pairs)
-
         for priority, item in heap._data:
             if type(priority) not in (int, float):
                 raise TypeError("Priority must be an integer or float")
 
         n = len(heap._data)
-
         for i in range(n // 2 - 1, -1, -1):
             current = i
-
             while True:
                 left = 2 * current + 1
                 right = 2 * current + 2

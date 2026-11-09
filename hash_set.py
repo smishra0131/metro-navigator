@@ -1,6 +1,7 @@
 from hash_table import HashTable
 
 class HashSet:
+    """Stores unique strings without promising an order"""
     def __init__(self):
         self._table = HashTable()
 
@@ -44,7 +45,6 @@ class HashSet:
             raise TypeError("other must be a HashSet")
 
         result = HashSet()
-
         for item in self.to_list():
             result.add(item)
 
@@ -58,7 +58,6 @@ class HashSet:
             raise TypeError("other must be a HashSet")
 
         result = HashSet()
-
         for item in self.to_list():
             if other.contains(item):
                 result.add(item)
@@ -70,7 +69,6 @@ class HashSet:
             raise TypeError("other must be a HashSet")
 
         result = HashSet()
-
         for item in self.to_list():
             if not other.contains(item):
                 result.add(item)
@@ -82,7 +80,6 @@ class HashSet:
             raise TypeError("other must be a HashSet")
 
         result = HashSet()
-
         for item in self.to_list():
             if not other.contains(item):
                 result.add(item)

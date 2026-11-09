@@ -2,10 +2,12 @@ from hash_table import HashTable
 from linked_list import LinkedList
 
 class Edge:
+    """Represents an edge in the graph"""
     def __init__(self, to):
         self.to = to
 
 class Graph:
+    """Stores vertices and the connections between them"""
     def __init__(self, directed=False):
         self.directed = directed
         self.adjacency = HashTable()

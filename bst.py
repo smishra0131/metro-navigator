@@ -1,4 +1,5 @@
 class TreeNode:
+    """Supports lookup and ordered traversals of the station directory"""
     def __init__(self, key, value=None):
         self.key = key
         self.value = value
@@ -6,6 +7,7 @@ class TreeNode:
         self.right = None
 
 class BST:
+    """Binary search tree stores key-value pairs in ordered nodes"""
     def __init__(self):
         self.root = None
         self.size = 0

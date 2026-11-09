@@ -1,5 +1,5 @@
 class Entry:
-    """Represents a single entry in the hash table."""
+    """Represents a single entry in the hash table"""
     def __init__(self, key, value):
         self.key = key
         self.value = value

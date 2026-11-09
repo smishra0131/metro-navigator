@@ -1,6 +1,7 @@
 from linked_list import LinkedList
 
 class Stack:
+    """Models the rider Back button: the most recently visited station is the first one removed"""
     def __init__(self):
         self._list = LinkedList()
 

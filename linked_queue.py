@@ -1,6 +1,7 @@
 from linked_list import LinkedList
 
 class Queue:
+    """Models a service line where the first person to arrive is served first"""
     def __init__(self):
         self._list = LinkedList()
 
@@ -30,7 +31,6 @@ class Queue:
         return len(self._list)
 
 
-
 def board_passengers(names, k):
     if type(names) is not list:
         raise TypeError("names must be a list")
@@ -52,7 +52,6 @@ def board_passengers(names, k):
         queue.enqueue(name)
 
     elimination_order = []
-
     while len(queue) > 1:
         for i in range(k - 1):
             queue.enqueue(queue.dequeue())
