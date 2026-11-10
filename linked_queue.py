@@ -41,23 +41,17 @@ def board_passengers(names, k):
     if type(k) is not int:
         raise TypeError("k must be an integer")
 
-    if len(names) == 0:
-        raise ValueError("names cannot be empty")
-
-    if k < 1:
-        raise ValueError("k must be at least 1")
+    if k < 0:
+        raise ValueError("k cannot be negative")
 
     queue = Queue()
     for name in names:
         queue.enqueue(name)
 
-    elimination_order = []
-    while len(queue) > 1:
-        for i in range(k - 1):
-            queue.enqueue(queue.dequeue())
+    boarded = []
+    while not queue.is_empty() and len(boarded) < k:
+        boarded.append(queue.dequeue())
 
-        elimination_order.append(queue.dequeue())
-
-    winner = queue.dequeue()
-    return (elimination_order, winner)
+    waiting = queue.to_list()
+    return (boarded, waiting)
 

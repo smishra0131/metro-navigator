@@ -1,3 +1,4 @@
+"""Unit tests for BST."""
 import random
 import unittest
 from bst import BST

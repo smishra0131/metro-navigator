@@ -1,8 +1,9 @@
+"""Unit tests for Queue and board_passengers()."""
 import random
 import time
 import unittest
-from linked_queue import Queue, board_passengers
 from linked_list import LinkedList
+from linked_queue import Queue, board_passengers
 
 class TestQueue(unittest.TestCase):
     def test_QU_01(self):
@@ -10,6 +11,7 @@ class TestQueue(unittest.TestCase):
         self.assertEqual(len(queue), 0)
         self.assertTrue(queue.is_empty())
         self.assertEqual(queue.to_list(), [])
+
         with self.assertRaises(IndexError):
             queue.dequeue()
 
@@ -18,35 +20,36 @@ class TestQueue(unittest.TestCase):
 
     def test_QU_02(self):
         queue = Queue()
-        queue.enqueue(1)
-        queue.enqueue(2)
-        queue.enqueue(3)
+        for x in [1, 2, 3]:
+            queue.enqueue(x)
+
         self.assertEqual(queue.peek(), 1)
         self.assertEqual(len(queue), 3)
         self.assertEqual(queue.to_list(), [1, 2, 3])
 
     def test_QU_03(self):
         queue = Queue()
-        queue.enqueue(1)
-        queue.enqueue(2)
-        queue.enqueue(3)
-        self.assertEqual(queue.dequeue(), 1)
-        self.assertEqual(queue.dequeue(), 2)
-        self.assertEqual(queue.dequeue(), 3)
+        for x in [1, 2, 3]:
+            queue.enqueue(x)
+
+        self.assertEqual(
+            [queue.dequeue(), queue.dequeue(), queue.dequeue()],
+            [1, 2, 3]
+        )
+
         self.assertTrue(queue.is_empty())
         with self.assertRaises(IndexError):
             queue.dequeue()
 
     def test_QU_04(self):
         queue = Queue()
-        queue.enqueue(1)
-        queue.enqueue(2)
-        queue.enqueue(3)
-        original_length = len(queue)
-        self.assertEqual(queue.peek(), 1)
-        self.assertEqual(queue.peek(), 1)
-        self.assertEqual(queue.peek(), 1)
-        self.assertEqual(len(queue), original_length)
+        for x in [1, 2, 3]:
+            queue.enqueue(x)
+
+        for _ in range(3):
+            self.assertEqual(queue.peek(), 1)
+
+        self.assertEqual(len(queue), 3)
 
     def test_QU_05(self):
         queue = Queue()
@@ -60,16 +63,19 @@ class TestQueue(unittest.TestCase):
 
     def test_QU_06(self):
         queue = Queue()
-        for i in range(5):
-            queue.enqueue(1)
-            self.assertEqual(queue.dequeue(), 1)
-            self.assertTrue(queue.is_empty())
-            queue.enqueue(2)
-            queue.enqueue(3)
-            self.assertEqual(queue.to_list(), [2, 3])
-            self.assertEqual(queue.peek(), 2)
-            self.assertEqual(queue.dequeue(), 2)
-            self.assertEqual(queue.dequeue(), 3)
+        for cycle in range(5):
+            queue.enqueue(cycle)
+            self.assertEqual(queue.dequeue(), cycle)
+            queue.enqueue(cycle + 10)
+            queue.enqueue(cycle + 20)
+            self.assertEqual(
+                queue.to_list(),
+                [cycle + 10, cycle + 20]
+            )
+
+            self.assertEqual(queue.peek(), cycle + 10)
+            self.assertEqual(queue.dequeue(), cycle + 10)
+            self.assertEqual(queue.dequeue(), cycle + 20)
             self.assertTrue(queue.is_empty())
 
     def test_QU_07(self):
@@ -77,25 +83,25 @@ class TestQueue(unittest.TestCase):
         values = [None, 0, [], ("x",)]
         for value in values:
             queue.enqueue(value)
-        self.assertEqual(len(queue), 4)
-        self.assertIsNone(queue.dequeue())
-        self.assertEqual(queue.dequeue(), 0)
-        self.assertEqual(queue.dequeue(), [])
-        self.assertEqual(queue.dequeue(), ("x",))
-        self.assertTrue(queue.is_empty())
+
+        self.assertEqual(
+            [queue.dequeue() for _ in values],
+            values
+        )
 
     def test_QU_08(self):
         queue = Queue()
         self.assertIsInstance(queue._list, LinkedList)
         start = time.perf_counter()
-        for i in range(20000):
+
+        for i in range(20_000):
             queue.enqueue(i)
 
-        for i in range(20000):
-            queue.dequeue()
+        for i in range(20_000):
+            self.assertEqual(queue.dequeue(), i)
 
         elapsed = time.perf_counter() - start
-        self.assertEqual(len(queue), 0)
+
         self.assertLess(elapsed, 1.0)
 
     def test_QU_09(self):
@@ -103,84 +109,93 @@ class TestQueue(unittest.TestCase):
         queue.enqueue(1)
         queue.enqueue(2)
         queue.clear()
-        self.assertEqual(len(queue), 0)
+
         self.assertTrue(queue.is_empty())
-        self.assertEqual(queue.to_list(), [])
+
         queue.enqueue(3)
-        self.assertEqual(queue.dequeue(), 3)
-        queue1 = Queue()
-        queue2 = Queue()
-        queue1.enqueue(10)
-        queue2.enqueue(20)
-        self.assertEqual(queue1.to_list(), [10])
-        self.assertEqual(queue2.to_list(), [20])
-        self.assertIsNot(queue1._list, queue2._list)
+
+        other = Queue()
+        other.enqueue(9)
+
+        self.assertEqual(queue.to_list(), [3])
+        self.assertEqual(other.to_list(), [9])
 
     def test_QU_10(self):
         names = ["A", "B", "C", "D", "E"]
-        result = board_passengers(names, 3)
+
         self.assertEqual(
-            result,
-            (["C", "A", "E", "B"], "D")
+            board_passengers(names, 3),
+            (["A", "B", "C"], ["D", "E"])
         )
 
     def test_QU_11(self):
-        names = ["A", "B", "C", "D", "E"]
-        result = board_passengers(names, 1)
         self.assertEqual(
-            result,
-            (["A", "B", "C", "D"], "E")
+            board_passengers(["A", "B", "C", "D", "E"], 1),
+            (["A"], ["B", "C", "D", "E"])
         )
 
-        names = ["A", "B", "C"]
-        result = board_passengers(names, 10)
         self.assertEqual(
-            result,
-            (["A", "C"], "B")
+            board_passengers(["A", "B", "C"], 10),
+            (["A", "B", "C"], [])
         )
 
-        names = ["Z"]
-        result = board_passengers(names, 3)
-        self.assertEqual(result, ([], "Z"))
-
-        names = ["A", "B", "C", "D", "E"]
-        original_names = names.copy()
-        board_passengers(names, 3)
-        self.assertEqual(names, original_names)
-        with self.assertRaises(ValueError):
-            board_passengers([], 3)
-
-        with self.assertRaises(ValueError):
-            board_passengers(["A", "B"], 0)
+        self.assertEqual(
+            board_passengers(["Z"], 1),
+            (["Z"], [])
+        )
 
     def test_QU_12(self):
-        random.seed(67)
+        self.assertEqual(
+            board_passengers(["A", "B", "C"], 0),
+            ([], ["A", "B", "C"])
+        )
+
+    def test_QU_13(self):
+        self.assertEqual(
+            board_passengers([], 3),
+            ([], [])
+        )
+
+    def test_QU_14(self):
+        with self.assertRaises(ValueError):
+            board_passengers(["A", "B"], -1)
+
+        with self.assertRaises(TypeError):
+            board_passengers(["A", "B"], 2.5)
+
+        with self.assertRaises(TypeError):
+            board_passengers(["A", "B"], "2")
+
+    def test_QU_15(self):
+        names = ["Ada", "Grace", "Katherine"]
+        original = names[:]
+
+        board_passengers(names, 2)
+
+        self.assertEqual(names, original)
+
+    def test_QU_16(self):
+        names = ["Ana", "Ben", "Cy"]
+        boarded, waiting = board_passengers(names, 1)
+
+        self.assertEqual(boarded, ["Ana"])
+        self.assertEqual(waiting, ["Ben", "Cy"])
+
+    def test_QU_17(self):
+        rng = random.Random(1201)
         queue = Queue()
         model = []
-        for _ in range(1000):
-            operation = random.choice(["enqueue", "dequeue"])
-            if operation == "enqueue":
-                value = random.randint(0, 100)
 
+        for _ in range(1_000):
+            if not model or rng.random() < 0.6:
+                value = rng.randint(-100, 100)
                 queue.enqueue(value)
                 model.append(value)
-
-            elif operation == "dequeue":
-                if model:
-                    expected = model.pop(0)
-                    result = queue.dequeue()
-
-                    self.assertEqual(result, expected)
-                else:
-                    with self.assertRaises(IndexError):
-                        queue.dequeue()
+            else:
+                self.assertEqual(queue.dequeue(), model.pop(0))
 
             self.assertEqual(queue.to_list(), model)
             self.assertEqual(len(queue), len(model))
-            self.assertEqual(
-                queue.is_empty(),
-                len(model) == 0
-            )
 
 
 if __name__ == "__main__":

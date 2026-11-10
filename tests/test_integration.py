@@ -1,3 +1,4 @@
+"""Unit tests for all eight data structures."""
 import unittest
 from bst import BST
 from graph import Graph
